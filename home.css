@@ -1,0 +1,102 @@
+body {
+   margin: 0; 
+   padding: 0; 
+   border: 0;
+   overflow-y: hidden;
+   height: 100%;
+   width: 100%;
+}
+#game {
+   position: absolute;
+
+   height: 100%;
+   width: 100%;
+}
+#header {
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   height: 50px;
+   width: 100%;
+   background: #eee;
+}
+#canvas {
+   position: absolute;
+   top: 50px;
+   left: 0px;
+   width: 100%;
+   height: calc(100% - 50px);
+}
+
+.max {
+   position: absolute;
+   background: #fff;  
+   border: 1px solid #000;
+}
+.max .content {
+   padding: 5px 5px 5px 5px;
+}
+.max .topbar, .min .topbar {
+   background: linear-gradient(#9cb4d8, #728cb2);
+   color: #fff;
+   width: 100%;
+   height: 20px;
+   border-bottom: 1px solid #000;
+   cursor: pointer;
+}
+.max .topbar .mize, .max .topbar .exit, .min .topbar .mize, .min .topbar .exit { 
+   display: inline-block;
+   float: left;
+   width: 20px;
+   height: 20px;
+   line-height: 20px;
+   text-align: center;
+   cursor: pointer;
+}
+.max .topbar .exit, .min .topbar .exit {
+   float: right;
+}
+.max .topbar .head, .min .topbar .head { 
+   display: inline-block;
+   float: left;
+   height: 20px;
+   line-height: 20px;
+   text-align: center;
+}
+.max .topbar .head {
+   width: calc(100% - 40px);  
+}
+
+.min {
+   float: left;
+   margin: 0px 0px 0px 10px;
+   height: 19px;
+   border: 1px solid #000;
+}
+.min .topbar {}
+.min .topbar .mize, .min .topbar .exit {}
+.min .topbar .exit {}
+.min .topbar .head {
+   padding: 0px 20px 0px 20px;
+}
+
+/* new css */
+
+
+
+.list {
+   width: calc(100% - 2px);
+   margin: 5px 0px 5px 0px;
+   border: 1px solid #222;
+   overflow-y: scroll;
+}
+.list .item {
+   height: 20px;
+   width: calc(100% - 10px);
+   padding: 0px 5px 0px 5px;
+}
+
+.list .item:hover {
+   background: rgba(0, 0, 0, 0.1);
+   cursor: pointer;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" class="no-js">
+   <head>
+      <title>hw2</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="home.css">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <script src="js/AssetBank.js"></script>
+      <script src="js/Rand.js"></script>
+      <script src="js/Game2D.js"></script>
+      <script src="js/GameObjects.js"></script>
+      <script src="js/GlobalFunctions.js"></script>
+      <script src="js/Window.js"></script>
+      <script src="js/InstanceWindows.js"></script>
+      <link rel="shortcut icon" href="favicon.ico">
+   </head>
+   <body>
+      <canvas id="game"></canvas>
+      <div id="minimized"></div>
+   <body>
+</html>
+<script type="text/javascript">
+
+var game = new Game2D(document.getElementById("game"), window);
+var windowjs = new WindowJS(document.getElementById("minimized"));
+
+game.init = function(state, persist) {
+   game.state.windowjs = windowjs;
+};
+
+game.update = function(state, persist) {
+   for (var i = 0, len = Global_Buildings.length; i < len; i++) {
+      harvest(Global_Buildings[i], game);
+   }
+};
+
+game.draw = function(state, persist) {
+   gameDraw(game);
+
+   state.ctx.drawImage(persist.assets['energyicon'].image, 5, 5, 20, 20);
+   state.ctx.drawImage(persist.assets['fuelicon'].image, 5, 25, 20, 20);
+   state.ctx.drawImage(persist.assets['materialicon'].image, 5, 45, 20, 20);
+
+   state.ctx.fillStyle = "#fff";
+   state.ctx.font = "16px Arial";
+   state.ctx.fillText(" : " + Math.round(Global_Energy), 24, 22);
+   state.ctx.fillText(" : " + Math.round(Global_Fuel), 24, 42);
+   state.ctx.fillText(" : " + Math.round(Global_Material), 24, 62);
+
+   var height = state.canvas.height - state.canvas.height*(state.camera.zoom - state.camera.minz)/(state.camera.maxz - state.camera.minz);
+   state.ctx.fillStyle = "#eee";
+   state.ctx.globalAlpha = 0.2;
+   state.ctx.fillRect(state.canvas.width - 10, 0, 10, height);
+   state.ctx.globalAlpha = 1;
+
+   // cross hair
+   state.ctx.beginPath();
+   state.ctx.arc(state.camera.offsetx, state.camera.offsety, 20, 0, 2 * Math.PI, false);
+   state.ctx.fillStyle = "#fff";
+   state.ctx.globalAlpha = 0.05;
+   state.ctx.fill();
+   state.ctx.globalAlpha = 1.0;
+}
+
+var start = new Date();
+var load = document.createElement("div");
+load.style.position = "absolute";
+load.style.top = "calc(50% - 10px)";
+load.style.width = "100%";
+load.style.height = "20px";
+load.style['line-height'] = "20px";
+load.style['vertical-align'] = "middle";
+load.style['text-align'] = "center";
+document.body.style.background = "#e4e2cf";
+load.innerHTML = "Loading Assets...";
+
+document.body.appendChild(load);
+
+game.persist.assets = new AssetBank([
+   { name: "ship", url: "assets/images/ship.png", type:"image" },
+   { name: "sun", url: "assets/images/sun.png", type:"image" },
+   { name: "dysonPyramid", url: "assets/images/dysonpyramid.png", type:"image" },
+   { name: "fuelicon", url: "assets/images/fuelicon.png", type:"image" },
+   { name: "materialicon", url: "assets/images/materialicon.png", type:"image" },
+   { name: "energyicon", url: "assets/images/energyicon.png", type:"image" },
+   { name: "backrepeat", url: "assets/sounds/backrepeat.mp3", type:"audio" },
+   { name: "build", url: "assets/sounds/build.mp3", type:"audio" },
+   { name: "button", url: "assets/sounds/button.mp3", type:"audio" },
+   { name: "levelup", url: "assets/sounds/levelup.mp3", type:"audio" }
+], 
+function() {
+   if (new Date() - start <= 1000) {
+      window.setTimeout(function() {
+         load.style.display = "none";
+         game.start();
+      }, 
+      2000 - (new Date() - start));
+   }
+});
+
+</script>
